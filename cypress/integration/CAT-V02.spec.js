@@ -2,11 +2,13 @@
 
 const sysForm = {}
 const maskForm = { }
-const dataForm = { }
+const inputForm = { }
+const outputForm = { }
 const checkForm = { }
 
 function SetupMapping() {
 
+    sysForm.url = './src/index.html'
     sysForm.title = 'Central de Atendimento ao Cliente TAT'
 
     // Page Mapping
@@ -19,61 +21,95 @@ function SetupMapping() {
     maskForm.product = '#product'
     maskForm.support = ':radio'
 
-    maskForm.ContactEmail = '#email-checkbox'
-    maskForm.ContactPhone = '#phone-checkbox'
+    maskForm.contactEmail = '#email-checkbox'
+    maskForm.contactPhone = '#phone-checkbox'
 
     maskForm.memo = '#open-text-area'
+
+    maskForm.selectedFile = 'input[type="file"]'
 
     maskForm.submit = ':submit'
 
     maskForm.success = '.success'
     maskForm.error = '.error'
 
-    // Data Mapping
+    maskForm.linkPrivacyPolicy = '#privacy a'
+
+    maskForm.visitPage = '#white-background'
+
+    // Input Mapping
     
-    dataForm.ContactEmail = false
-    dataForm.ContactPhone = false
+    inputForm.contactEmail = false
+    inputForm.contactPhone = false
 
-    dataForm.firstName = 'Alexandre'
-    dataForm.lastName = 'Bartie'
-    dataForm.email = 'bartie.devops@outlook.com'
-    dataForm.phone = ''
-    dataForm.product = ''
-    dataForm.support = ''
+    inputForm.firstName = 'Alexandre'
+    inputForm.lastName = 'Bartie'
+    inputForm.email = 'bartie.devops@outlook.com'
+    inputForm.phone = ''
+    inputForm.product = ''
+    inputForm.support = ''
 
-    dataForm.memo = 'Agradecido!'
+    inputForm.selectedFile_Path = 'cypress/fixtures/'
+    inputForm.selectedFile_Name = 'example.json'
+
+    inputForm.selectedFile_Mode = ''
+
+    inputForm.memo = 'Agradecido!'
+
+    // Output Mapping
+
+    outputForm.msgSuccess = 'Mensagem enviada com sucesso.'
+    outputForm.msgError = 'Valide os campos obrigatórios!'
+
+    outputForm.visitPageBottom = 'Talking About Testing'
 
     // Check Mapping
 
-    checkForm.IsEmptyPhone = false
+    checkForm.uploadFile = false
+    checkForm.emptyPhone = false
+
     checkForm.success = false
+
+    checkForm.linkPrivacyPolicy = false
+
 }
 
 Cypress.Commands.add('PageCustomer_FillForm', () => {
 
-    cy.Text(dataForm.firstName, maskForm.firstName)
-    cy.Text(dataForm.lastName, maskForm.lastName)
-    cy.Text(dataForm.email, maskForm.email)
-    cy.Text(dataForm.phone, maskForm.phone)
+    cy.Text(inputForm.firstName, maskForm.firstName)
+    cy.Text(inputForm.lastName, maskForm.lastName)
+    cy.Text(inputForm.email, maskForm.email)
+    cy.Text(inputForm.phone, maskForm.phone)
 
-    cy.Combo(dataForm.product, maskForm.product)
+    cy.Combo(inputForm.product, maskForm.product)
 
-    cy.Radio(dataForm.support, maskForm.support)
+    cy.Radio(inputForm.support, maskForm.support)
 
-    cy.Option(dataForm.ContactEmail, maskForm.ContactEmail)
-    cy.Option(dataForm.ContactPhone, maskForm.ContactPhone)
+    cy.Option(inputForm.contactEmail, maskForm.contactEmail)
+    cy.Option(inputForm.contactPhone, maskForm.contactPhone)
 
-    cy.Text(dataForm.memo, maskForm.memo)
+    cy.Text(inputForm.memo, maskForm.memo)
 
-    if (checkForm.IsEmptyPhone)
+    if (checkForm.emptyPhone)
         cy.Assert_ElementIsEmpty(maskForm.phone)
+
+    if (checkForm.uploadFile)
+        cy.ActionFile(inputForm.selectedFile_Mode, inputForm.selectedFile_Path, inputForm.selectedFile_Name, maskForm.selectedFile)
 
     cy.Click(maskForm.submit) 
 
     if (checkForm.success)
-        cy.Assert_ElementIsVisible(maskForm.success)
+        cy.Assert_FindText(outputForm.msgSuccess, maskForm.success)
     else
-        cy.Assert_ElementIsVisible(maskForm.error)
+        cy.Assert_FindText(outputForm.msgError, maskForm.error)
+
+    if (checkForm.linkPrivacyPolicy)
+    {
+        cy.Link(maskForm.linkPrivacyPolicy)
+
+        cy.Assert_FindText(outputForm.visitPageBottom, maskForm.visitPageBottom)
+
+    }
 
 })
 
@@ -81,30 +117,31 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
     beforeEach(() => {
 
-        cy.Go('./src/index.html')
-
         SetupMapping()
+
+        cy.Go(sysForm.url)
+
     })
     
     context('Testes Negócio', () => {
 
-        it('Cadastramento com dados mínimos', () => {
+        it.only('Cadastramento com dados mínimos', () => {
 
             checkForm.success = true
 
         })
 
-        it('Cadastramento incluindo produto (by Value)', () => {
+        it.only('Cadastramento incluindo produto (by Value)', () => {
 
-            dataForm.product = 'YouTube'
+            inputForm.product = 'YouTube'
           
             checkForm.success = true
 
         })
 
-        it('Cadastramento incluindo produto (By Index)', () => {
+        it.only('Cadastramento incluindo produto (By Index)', () => {
 
-            dataForm.product = 2
+            inputForm.product = 2
           
             checkForm.success = true
 
@@ -112,57 +149,91 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         it.only('Cadastramento modificando Tipo Atendimento', () => {
 
-            dataForm.support = 'feedback'
+            inputForm.support = 'elogio'
           
             checkForm.success = true
 
         })
 
-        it('Definir Contato por telefone e informá-lo', () => {
+        it.only('Definir Contato por telefone e informá-lo', () => {
 
-            dataForm.ContactPhone = true
+            inputForm.contactPhone = true
 
-            dataForm.phone = '11994112466'
+            inputForm.phone = '11994112466'
             
             checkForm.success = true
 
         })
 
-        it('Definir Contato por telefone, mas não informá-lo', () => {
+        it.only('Definir Contato por telefone, mas não informá-lo', () => {
 
-            dataForm.ContactPhone = true
+            inputForm.contactPhone = true
             
             checkForm.success = false
 
         })
 
+        it.only('Definir ambos os Contatos', () => {
+
+            inputForm.contactEmail = true
+            inputForm.contactPhone = true
+
+            inputForm.phone = '11994112466'
+            
+            checkForm.success = true
+
+        })
+
+        it.only('Definir Contato subindo um Arquivo.', () => {
+
+            inputForm.selectedFile_Mode = 'Upload'
+            
+            checkForm.success = true
+
+        })
+
+        it.only('Definir Contato arrastando um Arquivo.', () => {
+
+            inputForm.selectedFile_Mode = 'DragDrop'
+
+            checkForm.success = true
+
+        })
+
+        it.only('Definir Contato e abrindo link na sequencia', () => {
+
+                checkForm.linkPrivacyPolicy = true
+
+                checkForm.success = true
+
+            })
 
     })
 
     context('Testes Usabilidade', () => {
 
-        it('Não digitar nenhuma informação', () => {
+        it.only('Não digitar nenhuma informação', () => {
 
-            dataForm.firstName = ''
-            dataForm.lastName = ''
-            dataForm.email = ''
-            dataForm.memo = ''
+            inputForm.firstName = ''
+            inputForm.lastName = ''
+            inputForm.email = ''
+            inputForm.memo = ''
 
             checkForm.success = false
 
         })
 
-        it('Forçar erro na digitaçao do e-mail', () => {
+        it.only('Forçar erro na digitaçao do e-mail', () => {
 
-            dataForm.email = 'bartie.devops$outlook.com'
+            inputForm.email = 'bartie.devops$outlook.com'
 
             checkForm.success = false
 
         })
         
-        it('Forçar entrada de caracteres no campo telefone', () => {
+        it.only('Forçar entrada de caracteres no campo telefone', () => {
 
-            dataForm.phone = 'ABCDEFGHI'
+            inputForm.phone = 'ABCDEFGHI'
 
             checkForm.success = true
 
@@ -173,12 +244,27 @@ describe('V02: Central de Atendimento ao Cliente', () => {
     })  
     
     afterEach(() => {
+       
+        if (true)
+        {
+            checkForm.uploadFile = (inputForm.selectedFile_Mode != '')
 
-        cy.PageCustomer_FillForm(dataForm, maskForm, checkForm)
+            cy.PageCustomer_FillForm(inputForm, maskForm, checkForm)
+        }
+        else
+            Debugging()
 
     })
 
 })
+
+function Debugging() {
+
+    cy.Link(maskForm.linkPrivacyPolicy)
+
+    cy.Assert_FindText(outputForm.visitPageBottom, maskForm.visitPageBottom)
+
+}
 
 
 
