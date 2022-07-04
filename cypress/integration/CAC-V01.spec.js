@@ -21,10 +21,10 @@ describe('V01: Central de Atendimento ao Cliente', () => {
 
         it.only('Cadastramento bem sucedido', () => {
 
-            cy.Text('#firstName', 'Alexandre')
-            cy.Text('#lastName', 'Bartie')
-            cy.Text('#email', 'bartie.devops@outlook.com')
-            cy.Text('#open-text-area', 'Agradecido!')
+            cy.Text('Alexandre', '#firstName')
+            cy.Text('Bartie', '#lastName')
+            cy.Text('bartie.devops@outlook.com', '#email')
+            cy.Text('Agradecido!', '#open-text-area')
 
             cy.Click('button[type="submit"]')
 
@@ -33,10 +33,10 @@ describe('V01: Central de Atendimento ao Cliente', () => {
 
         it.only('Cadastramento com comando customizado', () => {
 
-            cy.Text('#firstName', 'Alexandre')
-            cy.Text('#lastName', 'Bartie')
-            cy.Text('#email', 'bartie.devops@outlook.com')
-            cy.Text('#open-text-area', 'Agradecido!')
+            cy.Text('Alexandre', '#firstName')
+            cy.Text('Bartie', '#lastName')
+            cy.Text('bartie.devops@outlook.com', '#email')
+            cy.Text('Agradecido!', '#open-text-area')
 
             cy.Click('button[type="submit"]')
 
@@ -49,10 +49,10 @@ describe('V01: Central de Atendimento ao Cliente', () => {
 
         it.only('Forçar erro na digitaçao do e-mail', () => {
 
-            cy.Text('#firstName', 'Alexandre')
-            cy.Text('#lastName', 'Bartie')
-            cy.Text('#email', 'bartie.devops$outlook.com')
-            cy.Text('#open-text-area', 'Agradecido!')
+            cy.Text('Alexandre', '#firstName')
+            cy.Text('Bartie', '#lastName')
+            cy.Text('bartie.devops$outlook.com', '#email')
+            cy.Text('Agradecido!', '#open-text-area')
 
             cy.Click('button[type="submit"]')
 
@@ -61,11 +61,12 @@ describe('V01: Central de Atendimento ao Cliente', () => {
         
         it.only('Forçar entrada de caracteres no campo telefone', () => {
 
-            cy.Text('#firstName', 'Alexandre')
-            cy.Text('#lastName', 'Bartie')
-            cy.Text('#email', 'bartie.devops@outlook.com')
-            cy.Text('#phone', 'ABCDEFGHI')
-            cy.Text('#open-text-area', 'Agradecido!')
+            cy.Text('Alexandre', '#firstName')
+            cy.Text('Bartie', '#lastName')
+            cy.Text('bartie.devops@outlook.com', '#email')
+            cy.Text('ABCDEFGHI', '#phone')
+            cy.Text('Agradecido!', '#open-text-area')
+
             cy.Click('button[type="submit"]')
 
             cy.Assert_ElementIsVisible('.success')

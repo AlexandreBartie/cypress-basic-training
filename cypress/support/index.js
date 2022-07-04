@@ -16,8 +16,10 @@
 // Import commands.js using ES2015 syntax:
 
 import './global'
-import './actionCommands'
-import './assertCommands'
+import './commandsAction'
+import './commandsAssert'
+import './commandsReport'
+import './commandsFile'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
