@@ -165,6 +165,14 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
+        it.only('Forçar entrada de caracteres no campo telefone', () => {
+
+            inputForm.phone = 'ABCDEFGHI'
+            
+            checkForm.success = false
+
+        })
+
         it.only('Definir Contato por telefone, mas não informá-lo', () => {
 
             inputForm.contactPhone = true
@@ -172,6 +180,9 @@ describe('V02: Central de Atendimento ao Cliente', () => {
             checkForm.success = false
 
         })
+
+
+        
 
         it.only('Definir ambos os Contatos', () => {
 
