@@ -19,7 +19,7 @@ Cypress.Commands.add('Assert_ElementNoEmpty', (element, content) => {
 })
 
 Cypress.Commands.add('Assert_FindText', (value, element, content) => {
-    cy.Element(element, content).contains(value)//.should('be.visible')
+    cy.Element(element, content).contains(value).should('be.visible')
 })
 
 // -- Assert Pages --

@@ -65,12 +65,12 @@ function SetupMapping() {
 
     // Check Mapping
 
-    checkForm.uploadFile = false
-    checkForm.emptyPhone = false
+    checkForm.IsUploadFile = false
+    checkForm.IsEmptyPhone = false
 
-    checkForm.success = false
+    checkForm.IsSuccess = false
 
-    checkForm.linkPrivacyPolicy = false
+    checkForm.IsPrivacyPolicy = false
 
 }
 
@@ -98,12 +98,12 @@ Cypress.Commands.add('PageCustomer_FillForm', () => {
 
     cy.Click(maskForm.submit) 
 
-    if (checkForm.success)
+    if (checkForm.IsSuccess)
         cy.Assert_FindText(outputForm.msgSuccess, maskForm.success)
     else
         cy.Assert_FindText(outputForm.msgError, maskForm.error)
 
-    if (checkForm.linkPrivacyPolicy)
+    if (checkForm.IsPrivacyPolicy)
     {
         cy.Link(maskForm.linkPrivacyPolicy)
 
@@ -127,7 +127,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         it.only('Cadastramento com dados mínimos', () => {
 
-            checkForm.success = true
+            checkForm.IsSuccess = true
 
         })
 
@@ -135,7 +135,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.product = 'YouTube'
           
-            checkForm.success = true
+            checkForm.IsSuccess = true
 
         })
 
@@ -143,7 +143,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.product = 2
           
-            checkForm.success = true
+            checkForm.IsSuccess = true
 
         })
 
@@ -151,7 +151,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.support = 'elogio'
           
-            checkForm.success = true
+            checkForm.IsSuccess = true
 
         })
 
@@ -161,15 +161,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.phone = '11994112466'
             
-            checkForm.success = true
-
-        })
-
-        it.only('Forçar entrada de caracteres no campo telefone', () => {
-
-            inputForm.phone = 'ABCDEFGHI'
-            
-            checkForm.success = false
+            checkForm.IsSuccess = true
 
         })
 
@@ -177,12 +169,9 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.contactPhone = true
             
-            checkForm.success = false
+            checkForm.IsSuccess = false
 
         })
-
-
-        
 
         it.only('Definir ambos os Contatos', () => {
 
@@ -191,7 +180,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.phone = '11994112466'
             
-            checkForm.success = true
+            checkForm.IsSuccess = true
 
         })
 
@@ -199,7 +188,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.selectedFile_Mode = 'Upload'
             
-            checkForm.success = true
+            checkForm.IsSuccess = true
 
         })
 
@@ -207,7 +196,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.selectedFile_Mode = 'DragDrop'
 
-            checkForm.success = true
+            checkForm.IsSuccess = true
 
         })
 
@@ -215,7 +204,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
                 checkForm.linkPrivacyPolicy = true
 
-                checkForm.success = true
+                checkForm.IsSuccess = true
 
             })
 
@@ -230,7 +219,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
             inputForm.email = ''
             inputForm.memo = ''
 
-            checkForm.success = false
+            checkForm.IsSuccess = false
 
         })
 
@@ -238,7 +227,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.email = 'bartie.devops$outlook.com'
 
-            checkForm.success = false
+            checkForm.IsSuccess = false
 
         })
         
@@ -246,7 +235,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.phone = 'ABCDEFGHI'
 
-            checkForm.success = true
+            checkForm.IsSuccess = true
 
             checkForm.IsEmptyPhone = true
 
@@ -258,7 +247,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
        
         if (true)
         {
-            checkForm.uploadFile = (inputForm.selectedFile_Mode != '')
+            checkForm.IsUploadFile = (inputForm.selectedFile_Mode != '')
 
             cy.PageCustomer_FillForm(inputForm, maskForm, checkForm)
         }
