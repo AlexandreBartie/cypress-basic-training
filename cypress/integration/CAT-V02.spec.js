@@ -127,7 +127,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         it.only('Cadastramento com dados mínimos', () => {
 
-            checkForm.IsSuccess = true
+            FillForm(true)
 
         })
 
@@ -135,7 +135,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.product = 'YouTube'
           
-            checkForm.IsSuccess = true
+            FillForm(true)
 
         })
 
@@ -143,7 +143,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.product = 2
           
-            checkForm.IsSuccess = true
+            FillForm(true)
 
         })
 
@@ -151,7 +151,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.support = 'elogio'
           
-            checkForm.IsSuccess = true
+            FillForm(true)
 
         })
 
@@ -161,7 +161,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.phone = '11994112466'
             
-            checkForm.IsSuccess = true
+            FillForm(true)
 
         })
 
@@ -169,7 +169,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.contactPhone = true
             
-            checkForm.IsSuccess = false
+            FillForm(false)
 
         })
 
@@ -180,7 +180,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.phone = '11994112466'
             
-            checkForm.IsSuccess = true
+            FillForm(true)
 
         })
 
@@ -188,7 +188,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.selectedFile_Mode = 'Upload'
             
-            checkForm.IsSuccess = true
+            FillForm(true)
 
         })
 
@@ -196,7 +196,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.selectedFile_Mode = 'DragDrop'
 
-            checkForm.IsSuccess = true
+            FillForm(true)
 
         })
 
@@ -204,7 +204,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
                 checkForm.linkPrivacyPolicy = true
 
-                checkForm.IsSuccess = true
+                FillForm(true)
 
             })
 
@@ -219,7 +219,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
             inputForm.email = ''
             inputForm.memo = ''
 
-            checkForm.IsSuccess = false
+            FillForm(false)
 
         })
 
@@ -227,7 +227,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.email = 'bartie.devops$outlook.com'
 
-            checkForm.IsSuccess = false
+            FillForm(false)
 
         })
         
@@ -235,28 +235,25 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
             inputForm.phone = 'ABCDEFGHI'
 
-            checkForm.IsSuccess = true
-
             checkForm.IsEmptyPhone = true
+
+            FillForm(true)
 
         })
 
-    })  
+    }) 
     
-    afterEach(() => {
-       
-        if (true)
-        {
-            checkForm.IsUploadFile = (inputForm.selectedFile_Mode != '')
-
-            cy.PageCustomer_FillForm(inputForm, maskForm, checkForm)
-        }
-        else
-            Debugging()
-
-    })
-
 })
+
+function FillForm(IsSucess) {
+
+    checkForm.IsSuccess = IsSucess
+
+    checkForm.IsUploadFile = (inputForm.selectedFile_Mode != '')
+
+    cy.PageCustomer_FillForm(inputForm, maskForm, checkForm)
+
+}
 
 function Debugging() {
 
