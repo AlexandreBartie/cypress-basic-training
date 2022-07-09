@@ -57,7 +57,6 @@ fieldset.group .field {
     padding: 0.2em;
     border: 1px solid #272343;
     box-shadow: 2px 2px 2px #181818;
-    display: block;
 }
 
 textarea {
@@ -124,7 +123,7 @@ input[type="radio"] {
     margin-bottom: 12px;
 }
 
-.error {
+.error, .error-email-null, .error-phone-null, .error-email-invalid {
     display: none;
     background-color: #fbdd74;
     color: #181818;
@@ -133,13 +132,17 @@ input[type="radio"] {
     margin-bottom: 12px;
 }
 
-.success, .error {
+.success, .error, .error-email-null, .error-phone-null, .error-email-invalid {
     text-align: center;
 }
 
 .required-mark {
     color: #2e2e2e;
     font-size: 0.9em;
+}
+
+.email-label-span {
+    display: none;
 }
 
 .phone-label-span {
@@ -174,10 +177,10 @@ input[type="radio"] {
 
 @media (max-width: 411px) {
     #white-background {
-        border-radius: 0;
+        border-radius: 10;
     }
 
-    .error, .success {
+    .error, .error-email-null, .error-phone-null, .error-email-invalid, .success {
         margin-left: 10px;
         margin-right: 10px;
     }

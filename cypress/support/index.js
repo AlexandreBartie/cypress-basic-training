@@ -18,6 +18,7 @@
 import './global'
 import './commandsAction'
 import './commandsAssert'
+import './commandsSupport'
 import './commandsReport'
 import './commandsFile'
 

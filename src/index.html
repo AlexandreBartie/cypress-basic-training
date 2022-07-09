@@ -19,6 +19,15 @@
     <span class="error">
       <strong>Valide os campos obrigatórios!</strong>
     </span>
+    <span class="error-email-null">
+      <strong>E-Mail é obrigatório nesse Atendimento!</strong>
+    </span>
+    <span class="error-phone-null">
+      <strong>Phone é obrigatório nesse Atendimento!</strong>
+    </span>
+    <span class="error-email-invalid">
+      <strong>E-Mail digitado é inválido!</strong>
+    </span>
     <div id="white-background">
       <span id="cat">🐈</span>
       <form>
@@ -34,8 +43,8 @@
         </fieldset>
         <fieldset class="group">
           <div class="field">
-            <label for="email"><strong>E-mail</strong><span class="required-mark"> (obrigatório)</span></label>
-            <input type="email" name="email" id="email" required />
+            <label for="email"><strong>E-mail</strong><span class="email-label-span required-mark"> (obrigatório)</span></label>
+            <input type="email" name="email" id="email" />
           </div>
           <div class="field">
             <label for="phone"><strong>Telefone</strong><span class="phone-label-span required-mark"> (obrigatório)</span></label>

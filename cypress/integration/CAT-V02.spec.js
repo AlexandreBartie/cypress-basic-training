@@ -30,10 +30,10 @@ function SetupMapping() {
 
     maskForm.submit = ':submit'
 
-    maskForm.success = '.success'
-    maskForm.error = '.error'
-
     maskForm.linkPrivacyPolicy = '#privacy a'
+
+    maskForm.msgSuccess = '.success'
+    maskForm.msgError = '.error'
 
     maskForm.visitPage = '#white-background'
 
@@ -44,7 +44,7 @@ function SetupMapping() {
 
     inputForm.firstName = 'Alexandre'
     inputForm.lastName = 'Bartie'
-    inputForm.email = 'bartie.devops@outlook.com'
+    inputForm.email = '' //'bartie.devops@outlook.com'
     inputForm.phone = ''
     inputForm.product = ''
     inputForm.support = ''
@@ -68,13 +68,15 @@ function SetupMapping() {
     checkForm.IsUploadFile = false
     checkForm.IsEmptyPhone = false
 
-    checkForm.IsSuccess = false
-
     checkForm.IsPrivacyPolicy = false
+
+    checkForm.FadeMessage = 3
 
 }
 
-Cypress.Commands.add('PageCustomer_FillForm', () => {
+Cypress.Commands.add('PageCustomer_FillForm', (IsSucess) => {
+
+    cy.SetClock();
 
     cy.Text(inputForm.firstName, maskForm.firstName)
     cy.Text(inputForm.lastName, maskForm.lastName)
@@ -96,12 +98,12 @@ Cypress.Commands.add('PageCustomer_FillForm', () => {
     if (checkForm.uploadFile)
         cy.ActionFile(inputForm.selectedFile_Mode, inputForm.selectedFile_Path, inputForm.selectedFile_Name, maskForm.selectedFile)
 
-    cy.Click(maskForm.submit) 
+    cy.Click(maskForm.submit)
 
-    if (checkForm.IsSuccess)
-        cy.Assert_FindText(outputForm.msgSuccess, maskForm.success)
+    if (IsSucess)
+        cy.Assert_FindTextFade(checkForm.FadeMessage, outputForm.msgSuccess, maskForm.success)
     else
-        cy.Assert_FindText(outputForm.msgError, maskForm.error)
+        cy.Assert_FindTextFade(checkForm.FadeMessage, outputForm.msgError, maskForm.error)
 
     if (checkForm.IsPrivacyPolicy)
     {
@@ -127,84 +129,87 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         it.only('Cadastramento com dados mínimos', () => {
 
-            FillForm(true)
+            FillForm()
 
         })
 
-        it.only('Cadastramento incluindo produto (by Value)', () => {
+        it('Cadastramento incluindo produto (by Value)', () => {
 
             inputForm.product = 'YouTube'
           
-            FillForm(true)
+            FillForm()
 
         })
 
-        it.only('Cadastramento incluindo produto (By Index)', () => {
+        it('Cadastramento incluindo produto (By Index)', () => {
 
             inputForm.product = 2
           
-            FillForm(true)
+            FillForm()
 
         })
 
-        it.only('Cadastramento modificando Tipo Atendimento', () => {
+        it('Cadastramento modificando Tipo Atendimento', () => {
 
             inputForm.support = 'elogio'
           
-            FillForm(true)
+            FillForm()
 
         })
 
-        it.only('Definir Contato por telefone e informá-lo', () => {
+        it('Definir Contato com Atendimento por E-Mail', () => {
+
+            inputForm.contactEmail = true
+
+            inputForm.email = 'bartie.devops@outlook.com'
+            
+            FillForm()
+
+        })
+
+        it('Definir Contato com Atendimento por Phone', () => {
 
             inputForm.contactPhone = true
 
             inputForm.phone = '11994112466'
             
-            FillForm(true)
+            FillForm()
 
         })
 
-        it.only('Definir Contato por telefone, mas não informá-lo', () => {
-
-            inputForm.contactPhone = true
-            
-            FillForm(false)
-
-        })
-
-        it.only('Definir ambos os Contatos', () => {
+        it('Definir Contato com ambos Atendimento', () => {
 
             inputForm.contactEmail = true
             inputForm.contactPhone = true
 
+            inputForm.email = 'bartie.devops@outlook.com'
             inputForm.phone = '11994112466'
             
-            FillForm(true)
+            FillForm()
 
         })
 
-        it.only('Definir Contato subindo um Arquivo.', () => {
+        it('Definir Contato subindo um Arquivo.', () => {
 
             inputForm.selectedFile_Mode = 'Upload'
             
-            FillForm(true)
+            FillForm()
 
         })
 
-        it.only('Definir Contato arrastando um Arquivo.', () => {
+        it('Definir Contato arrastando um Arquivo.', () => {
 
             inputForm.selectedFile_Mode = 'DragDrop'
 
-            FillForm(true)
+            FillForm()
 
         })
 
-        it.only('Definir Contato e abrindo link na sequencia', () => {
+        it('Definir Contato e abrindo link na sequencia', () => {
 
                 checkForm.linkPrivacyPolicy = true
 
-                FillForm(true)
+                FillForm()
 
             })
 
@@ -212,32 +217,48 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
     context('Testes Usabilidade', () => {
 
-        it.only('Não digitar nenhuma informação', () => {
+        it('Não digitar nenhuma informação', () => {
 
             inputForm.firstName = ''
             inputForm.lastName = ''
-            inputForm.email = ''
             inputForm.memo = ''
 
-            FillForm(false)
+            FillFormError()
 
         })
 
-        it.only('Forçar erro na digitaçao do e-mail', () => {
+        it('Não informar E-Mail quando o tipo de atendimento exigí-lo sua entrada.', () => {
+
+            inputForm.contactEmail = true
+            
+            FillFormError('E-Mail é obrigatório nesse Atendimento!', '.error-email-null')
+
+        })
+
+        it('Não informar Phone quando o tipo de atendimento exigí-lo sua entrada.', () => {
+
+            inputForm.contactPhone = true
+            
+            FillFormError('Phone é obrigatório nesse Atendimento!', '.error-phone-null')
+
+        })
+
+
+        it('Forçar erro na digitaçao do e-mail', () => {
 
             inputForm.email = 'bartie.devops$outlook.com'
 
-            FillForm(false)
+            FillFormError('E-Mail digitado é inválido!', '.error-email-invalid')
 
         })
         
-        it.only('Forçar entrada de caracteres no campo telefone', () => {
+        it('Forçar entrada de caracteres no campo telefone', () => {
 
             inputForm.phone = 'ABCDEFGHI'
 
             checkForm.IsEmptyPhone = true
 
-            FillForm(true)
+            FillForm()
 
         })
 
@@ -245,13 +266,31 @@ describe('V02: Central de Atendimento ao Cliente', () => {
     
 })
 
-function FillForm(IsSucess) {
+function FillForm() {
+
+    FillFormAction(true)
+
+}
+
+function FillFormError(msgError, maskError) {
+    
+    if (HasArg(msgError))
+        outputForm.msgError = msgError
+
+    if (HasArg(maskError))
+        maskForm.error = maskError
+
+    FillFormAction(false)
+
+}
+
+function FillFormAction(IsSucess) {
 
     checkForm.IsSuccess = IsSucess
 
     checkForm.IsUploadFile = (inputForm.selectedFile_Mode != '')
 
-    cy.PageCustomer_FillForm(inputForm, maskForm, checkForm)
+    cy.PageCustomer_FillForm(checkForm.IsSuccess)
 
 }
 
@@ -263,5 +302,9 @@ function Debugging() {
 
 }
 
+function HasArg(arg) {
 
+    return (typeof arg !== 'undefined')
+
+}
 
