@@ -7,7 +7,7 @@
 
 /// <reference types="Cypress" />
 
-describe('V01: Central de Atendimento ao Cliente', () => {
+describe.only('Class: Central de Atendimento ao Cliente', () => {
 
     beforeEach(() => {
         cy.Go('./src/index.html')
@@ -56,7 +56,7 @@ describe('V01: Central de Atendimento ao Cliente', () => {
 
             cy.Click('button[type="submit"]')
 
-            cy.Assert_ElementIsVisible('.error')
+            cy.Assert_ElementIsVisible('.email-invalid')
         })
         
         it.only('Forçar entrada de caracteres no campo telefone', () => {

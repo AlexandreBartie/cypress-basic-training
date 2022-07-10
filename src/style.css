@@ -115,24 +115,19 @@ input[type="radio"] {
 }
 
 .success {
-    display: none;
     background-color: #4fc4cf;
-    color: #181818;
-    padding: 8px 10px;
-    border-radius: 5px;
-    margin-bottom: 12px;
 }
 
-.error, .error-email-null, .error-phone-null, .error-email-invalid {
-    display: none;
+.error, .email-null, .phone-null, .email-invalid {
     background-color: #fbdd74;
+}
+
+.success, .error, .email-null, .phone-null, .email-invalid {
+    display: none;
     color: #181818;
     padding: 8px 10px;
     border-radius: 5px;
     margin-bottom: 12px;
-}
-
-.success, .error, .error-email-null, .error-phone-null, .error-email-invalid {
     text-align: center;
 }
 
@@ -141,11 +136,7 @@ input[type="radio"] {
     font-size: 0.9em;
 }
 
-.email-label-span {
-    display: none;
-}
-
-.phone-label-span {
+.email-label-span, .phone-label-span {
     display: none;
 }
 

@@ -81,13 +81,13 @@ function IsValidData(firstNameField, lastNameField, textareaField, emailField, p
     return ShowError('.error')
   
   if (!IsOkRequiredEmail(emailField))
-    return ShowError('.error-email-null')
+    return ShowError('.email-null')
   
   if (!IsOkRequiredPhone(phoneField))
-    return ShowError('.error-phone-null')
+    return ShowError('.phone-null')
   
   if (!IsOkValidEmail(emailField))
-    return ShowError('.error-email-invalid')
+    return ShowError('.email-invalid')
     
   return true
   
@@ -111,13 +111,16 @@ function IsOkValidEmail(emailField) {
 function ShowError(element) {
   const errorMessage = document.querySelector(element)
   errorMessage.style.display = 'block'
+  scroll(0,0)
   HideMessage(errorMessage)
-  return true
+  return false
 }
 
 function HideMessage(element) {
+  
   scroll(0,0)
   setTimeout(function() {
     element.style.display = 'none'
   }, 3000)
+
 }

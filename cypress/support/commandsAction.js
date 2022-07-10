@@ -2,7 +2,7 @@
 // -- Action Commands --
 //
 
-const text_delay = 0
+const text_delay = 1
 
 
 Cypress.Commands.add('Go', (url) => {
@@ -70,6 +70,12 @@ Cypress.Commands.add('Link', (element, content) => {
     RemoveAttr(element, content, 'target').click()
 
    // CallLink(element, content)
+
+})
+
+Cypress.Commands.add('SetValue', (value, element, content) => {
+
+    cy.Element(element, content).invoke('val', value)
 
 })
 

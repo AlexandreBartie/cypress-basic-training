@@ -46,7 +46,7 @@ Cypress.Commands.add('Assert_FindTextFade', (seconds, value, element, content) =
 
     cy.Assert_FindText(value, element, content)
 
-    //cy.Assert_ElementFade(seconds, element, content)
+    cy.Assert_ElementFade(seconds, element, content)
 
 })
 

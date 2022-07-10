@@ -101,9 +101,9 @@ Cypress.Commands.add('PageCustomer_FillForm', (IsSucess) => {
     cy.Click(maskForm.submit)
 
     if (IsSucess)
-        cy.Assert_FindTextFade(checkForm.FadeMessage, outputForm.msgSuccess, maskForm.success)
+        cy.Assert_FindTextFade(checkForm.FadeMessage, outputForm.msgSuccess, maskForm.msgSuccess)
     else
-        cy.Assert_FindTextFade(checkForm.FadeMessage, outputForm.msgError, maskForm.error)
+        cy.Assert_FindTextFade(checkForm.FadeMessage, outputForm.msgError, maskForm.msgError)
 
     if (checkForm.IsPrivacyPolicy)
     {
@@ -115,7 +115,7 @@ Cypress.Commands.add('PageCustomer_FillForm', (IsSucess) => {
 
 })
 
-describe('V02: Central de Atendimento ao Cliente', () => {
+describe('Basic: Central de Atendimento ao Cliente', () => {
 
     beforeEach(() => {
 
@@ -133,7 +133,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Cadastramento incluindo produto (by Value)', () => {
+        it.only('Cadastramento incluindo produto (by Value)', () => {
 
             inputForm.product = 'YouTube'
           
@@ -141,7 +141,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Cadastramento incluindo produto (By Index)', () => {
+        it.only('Cadastramento incluindo produto (By Index)', () => {
 
             inputForm.product = 2
           
@@ -149,7 +149,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Cadastramento modificando Tipo Atendimento', () => {
+        it.only('Cadastramento modificando Tipo Atendimento', () => {
 
             inputForm.support = 'elogio'
           
@@ -157,7 +157,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Definir Contato com Atendimento por E-Mail', () => {
+        it.only('Definir Contato com Atendimento por E-Mail', () => {
 
             inputForm.contactEmail = true
 
@@ -167,7 +167,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Definir Contato com Atendimento por Phone', () => {
+        it.only('Definir Contato com Atendimento por Phone', () => {
 
             inputForm.contactPhone = true
 
@@ -177,7 +177,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Definir Contato com ambos Atendimento', () => {
+        it.only('Definir Contato com ambos Atendimento', () => {
 
             inputForm.contactEmail = true
             inputForm.contactPhone = true
@@ -189,7 +189,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Definir Contato subindo um Arquivo.', () => {
+        it.only('Definir Contato subindo um Arquivo.', () => {
 
             inputForm.selectedFile_Mode = 'Upload'
             
@@ -197,7 +197,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Definir Contato arrastando um Arquivo.', () => {
+        it.only('Definir Contato arrastando um Arquivo.', () => {
 
             inputForm.selectedFile_Mode = 'DragDrop'
 
@@ -205,7 +205,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Definir Contato e abrindo link na sequencia', () => {
+        it.only('Definir Contato e abrindo link na sequencia', () => {
 
                 checkForm.linkPrivacyPolicy = true
 
@@ -217,7 +217,7 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
     context('Testes Usabilidade', () => {
 
-        it('Não digitar nenhuma informação', () => {
+        it.only('Não digitar nenhuma informação', () => {
 
             inputForm.firstName = ''
             inputForm.lastName = ''
@@ -227,32 +227,32 @@ describe('V02: Central de Atendimento ao Cliente', () => {
 
         })
 
-        it('Não informar E-Mail quando o tipo de atendimento exigí-lo sua entrada.', () => {
+        it.only('Não informar E-Mail quando o tipo de atendimento exigí-lo sua entrada.', () => {
 
             inputForm.contactEmail = true
             
-            FillFormError('E-Mail é obrigatório nesse Atendimento!', '.error-email-null')
+            FillFormError('E-Mail é obrigatório nesse Atendimento!', '.email-null')
 
         })
 
-        it('Não informar Phone quando o tipo de atendimento exigí-lo sua entrada.', () => {
+        it.only('Não informar Phone quando o tipo de atendimento exigí-lo sua entrada.', () => {
 
             inputForm.contactPhone = true
             
-            FillFormError('Phone é obrigatório nesse Atendimento!', '.error-phone-null')
+            FillFormError('Phone é obrigatório nesse Atendimento!', '.phone-null')
 
         })
 
 
-        it('Forçar erro na digitaçao do e-mail', () => {
+        it.only('Forçar erro na digitaçao do e-mail', () => {
 
             inputForm.email = 'bartie.devops$outlook.com'
 
-            FillFormError('E-Mail digitado é inválido!', '.error-email-invalid')
+            FillFormError('E-Mail digitado é inválido!', '.email-invalid')
 
         })
         
-        it('Forçar entrada de caracteres no campo telefone', () => {
+        it.only('Forçar entrada de caracteres no campo telefone', () => {
 
             inputForm.phone = 'ABCDEFGHI'
 
@@ -278,7 +278,7 @@ function FillFormError(msgError, maskError) {
         outputForm.msgError = msgError
 
     if (HasArg(maskError))
-        maskForm.error = maskError
+        maskForm.msgError = maskError
 
     FillFormAction(false)
 
