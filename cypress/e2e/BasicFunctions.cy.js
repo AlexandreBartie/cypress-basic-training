@@ -46,7 +46,7 @@ function SetupMapping() {
     inputForm.lastName = 'Bartie'
     inputForm.email = '' //'bartie.devops@outlook.com'
     inputForm.phone = ''
-    inputForm.product = ''
+    inputForm.product = 'Blog'
     inputForm.support = ''
 
     inputForm.selectedFile_Path = 'cypress/fixtures/'

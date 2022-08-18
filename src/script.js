@@ -57,7 +57,7 @@ document.querySelector('#phone-checkbox')
     emailField.value = ''
     phoneField.value = ''
     textareaField.value = ''
-    productField.selectedIndex = 0
+    productField.selectedIndex = 1
     helpRadio.checked = true
     emailCheckbox.checked = false
     phoneCheckbox.checked = false
